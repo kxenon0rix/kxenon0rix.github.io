@@ -1,0 +1,9 @@
+{{ define "main" }}
+<a class="site-title" href="{{ "" | relURL }}">{{ site.Title }}</a>
+<h1 class="visually-hidden">文章</h1>
+{{ $posts := where site.RegularPages "Section" "posts" }}
+{{ $paginator := .Paginate $posts }}
+<ul class="posts" data-responsive-list data-static-page="{{ $paginator.PageNumber }}" data-index-url="{{ "index.json" | relURL }}">{{ range $paginator.Pages }}{{ partial "post-list.html" . }}{{ end }}</ul>
+{{ partial "pagination.html" . }}
+<script src="{{ "pagination.js" | relURL }}" defer></script>
+{{ end }}

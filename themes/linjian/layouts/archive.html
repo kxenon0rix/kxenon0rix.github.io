@@ -1,0 +1,14 @@
+{{ define "main" }}
+<a class="back" href="{{ "" | relURL }}">← 返回{{ site.Title }}</a>
+<h1 class="page-heading">{{ .Title }}</h1>
+{{ $tags := site.Taxonomies.tags }}
+<nav class="archive-links" aria-label="按标签浏览">
+  {{ range $tag, $pages := $tags }}<a href="{{ printf "tags/%s/" ($tag | urlize) | relURL }}">{{ $tag }}</a>{{ end }}
+</nav>
+{{ range $tag, $pages := $tags }}
+<details class="tag-section" id="{{ $tag | urlize }}">
+  <summary class="tag-heading">{{ $tag }} · {{ len $pages }} 篇</summary>
+  <ul class="posts">{{ range $pages.Pages.ByDate.Reverse }}{{ partial "post-list.html" . }}{{ end }}</ul>
+</details>
+{{ end }}
+{{ end }}

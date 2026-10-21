@@ -1,0 +1,9 @@
+name = "林间"
+license = "MIT"
+licenselink = "https://opensource.org/license/mit/"
+description = "A quiet, minimal Chinese blog theme with pagination, tag archives, and an about page."
+homepage = "https://example.org/"
+min_version = "0.146.0"
+
+[author]
+  name = "林间"

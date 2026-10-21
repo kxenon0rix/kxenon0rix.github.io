@@ -1,0 +1,5 @@
+{{ define "main" }}
+<a class="back" href="{{ "archive/" | relURL }}">← 返回归档</a>
+<h1 class="page-heading">{{ .Title }}</h1>
+<ul class="posts">{{ range .Data.Terms.Alphabetical }}<li class="post"><a class="post-title" href="{{ .Page.RelPermalink }}">{{ .Page.Title }}</a><span class="post-date">{{ .Count }} 篇</span></li>{{ end }}</ul>
+{{ end }}

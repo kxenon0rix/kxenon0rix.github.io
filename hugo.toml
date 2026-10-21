@@ -1,0 +1,32 @@
+baseURL = "https://example.org/"
+languageCode = "zh-cn"
+title = "林间"
+theme = "linjian"
+defaultContentLanguage = "zh-cn"
+enableRobotsTXT = true
+hasCJKLanguage = true
+
+[pagination]
+  pagerSize = 5
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
+[outputFormats.JSON]
+  mediaType = "application/json"
+  baseName = "index"
+  isPlainText = true
+  notAlternative = true
+
+[taxonomies]
+  tag = "tags"
+
+[params]
+  description = "林间的文字，关于工具、阅读和日常。"
+  author = "林间"
+
+[permalinks]
+  posts = "/posts/:slug/"
+
+[markup.goldmark.renderer]
+  unsafe = false
