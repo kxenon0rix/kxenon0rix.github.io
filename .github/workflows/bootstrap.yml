@@ -1,0 +1,100 @@
+name: Install repository from ZIP
+
+on:
+  push:
+    paths:
+      - site.zip
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: install-repository-from-zip
+  cancel-in-progress: false
+
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Validate and extract site.zip
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path, PurePosixPath
+          import stat
+          import zipfile
+
+          archive = Path("site.zip")
+          destination = Path("${{ runner.temp }}/site-payload")
+          if not archive.is_file():
+              raise SystemExit("site.zip was not found in the repository root")
+
+          with zipfile.ZipFile(archive) as zf:
+              names = zf.namelist()
+              for info in zf.infolist():
+                  path = PurePosixPath(info.filename)
+                  mode = info.external_attr >> 16
+                  if path.is_absolute() or ".." in path.parts:
+                      raise SystemExit(f"Unsafe ZIP path: {info.filename}")
+                  if stat.S_ISLNK(mode):
+                      raise SystemExit(f"ZIP symlinks are not accepted: {info.filename}")
+
+              files = {name.rstrip("/") for name in names}
+              if "hugo.toml" not in files:
+                  raise SystemExit("ZIP must contain hugo.toml at its root (zip the contents, not the parent folder)")
+              workflows = [
+                  name for name in files
+                  if name.startswith(".github/workflows/")
+                  and name.endswith((".yml", ".yaml"))
+                  and not name.endswith("/bootstrap.yml")
+              ]
+              if not workflows:
+                  raise SystemExit("ZIP must include at least one permanent workflow under .github/workflows/")
+
+              destination.mkdir(parents=True, exist_ok=True)
+              zf.extractall(destination)
+          PY
+
+      - name: Replace repository files and remove the bootstrap files
+        shell: bash
+        env:
+          TARGET_REF: ${{ github.ref }}
+          TARGET_BRANCH: ${{ github.ref_name }}
+          GH_REPO: ${{ github.repository }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          # The archive is already safely extracted outside the checkout.
+          git ls-files -z | xargs -0 -r git rm -f --
+          git clean -fdx
+          cp -a "$RUNNER_TEMP/site-payload/." .
+
+          git add -A
+          if git diff --cached --quiet; then
+            echo "The archive already matches the repository."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Install site files from ZIP"
+          git push origin "HEAD:${TARGET_REF#refs/heads/}"
+
+          # GITHUB_TOKEN suppresses push-triggered workflows. Dispatch the
+          # permanent Hugo workflow explicitly after installing it.
+          for attempt in {1..6}; do
+            if gh workflow run hugo.yaml --repo "$GH_REPO" --ref "$TARGET_BRANCH"; then
+              exit 0
+            fi
+            sleep 5
+          done
+          echo "Could not start hugo.yaml. Run it manually from the Actions tab."
+          exit 1
