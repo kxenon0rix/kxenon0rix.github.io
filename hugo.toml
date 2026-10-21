@@ -7,16 +7,10 @@ enableRobotsTXT = true
 hasCJKLanguage = true
 
 [pagination]
-  pagerSize = 5
+  pagerSize = 10
 
 [outputs]
-  home = ["HTML", "RSS", "JSON"]
-
-[outputFormats.JSON]
-  mediaType = "application/json"
-  baseName = "index"
-  isPlainText = true
-  notAlternative = true
+  home = ["HTML", "RSS"]
 
 [taxonomies]
   tag = "tags"
