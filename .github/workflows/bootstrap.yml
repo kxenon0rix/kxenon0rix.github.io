@@ -7,8 +7,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
-  actions: write
+  contents: read
 
 concurrency:
   group: install-repository-from-zip
@@ -17,84 +16,174 @@ concurrency:
 jobs:
   install:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Check out repository
+      - name: Check required secret
+        shell: bash
+        env:
+          REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
+        run: |
+          if [[ -z "$REPO_TOKEN" ]]; then
+            echo "::error::REPO_TOKEN is empty. Add it under Settings → Secrets and variables → Actions → Repository secrets."
+            exit 1
+          fi
+          echo "REPO_TOKEN is available."
+
+      - name: Check token identity and repository access
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.REPO_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+
+          echo "Token owner:"
+          gh api user --jq '.login'
+
+          echo "Repository and token owner's push access:"
+          gh api "repos/$GH_REPO" \
+            --jq '"\(.full_name) | push=\(.permissions.push // false)"'
+
+          can_push="$(gh api "repos/$GH_REPO" --jq '.permissions.push // false')"
+          if [[ "$can_push" != "true" ]]; then
+            echo "::error::This token's owner cannot push to $GH_REPO. Check the token's repository selection and account."
+            exit 1
+          fi
+
+          echo "Note: this API check cannot prove Workflows write permission; the push will check that."
+
+      - name: Check out repository using REPO_TOKEN
         uses: actions/checkout@v7
         with:
+          token: ${{ secrets.REPO_TOKEN }}
           fetch-depth: 0
+          persist-credentials: true
 
       - name: Validate and extract site.zip
         shell: bash
         run: |
+          set -euo pipefail
+
           python3 - <<'PY'
           from pathlib import Path, PurePosixPath
+          import os
           import stat
           import zipfile
 
           archive = Path("site.zip")
-          destination = Path("${{ runner.temp }}/site-payload")
+          destination = Path(os.environ["RUNNER_TEMP"]) / "site-payload"
+
           if not archive.is_file():
               raise SystemExit("site.zip was not found in the repository root")
 
           with zipfile.ZipFile(archive) as zf:
-              names = zf.namelist()
-              for info in zf.infolist():
-                  path = PurePosixPath(info.filename)
-                  mode = info.external_attr >> 16
-                  if path.is_absolute() or ".." in path.parts:
-                      raise SystemExit(f"Unsafe ZIP path: {info.filename}")
-                  if stat.S_ISLNK(mode):
-                      raise SystemExit(f"ZIP symlinks are not accepted: {info.filename}")
+              seen = set()
+              files = set()
 
-              files = {name.rstrip("/") for name in names}
-              if "hugo.toml" not in files:
-                  raise SystemExit("ZIP must contain hugo.toml at its root (zip the contents, not the parent folder)")
-              workflows = [
-                  name for name in files
-                  if name.startswith(".github/workflows/")
-                  and name.endswith((".yml", ".yaml"))
-                  and not name.endswith("/bootstrap.yml")
-              ]
-              if not workflows:
-                  raise SystemExit("ZIP must include at least one permanent workflow under .github/workflows/")
+              for info in zf.infolist():
+                  name = info.filename
+                  path = PurePosixPath(name)
+                  parts = path.parts
+                  mode = info.external_attr >> 16
+
+                  if (
+                      not name
+                      or name.startswith("/")
+                      or "\\" in name
+                      or any(part in ("", ".", "..") for part in parts)
+                      or ".git" in parts
+                      or stat.S_ISLNK(mode)
+                  ):
+                      raise SystemExit(f"Unsafe ZIP entry: {name!r}")
+
+                  normalized = name.rstrip("/")
+                  if normalized in seen:
+                      raise SystemExit(f"Duplicate ZIP entry: {name!r}")
+                  seen.add(normalized)
+
+                  if not info.is_dir():
+                      files.add(normalized)
+
+              required = {"hugo.toml", ".github/workflows/hugo.yaml"}
+              missing = required - files
+              if missing:
+                  raise SystemExit(
+                      "ZIP is missing files at its root: "
+                      + ", ".join(sorted(missing))
+                  )
+
+              if ".github/workflows/bootstrap.yml" in files:
+                  raise SystemExit(
+                      "Remove .github/workflows/bootstrap.yml from the ZIP; "
+                      "the installer must disappear after installation"
+                  )
+
+              if "site.zip" in files:
+                  raise SystemExit("Do not put site.zip inside site.zip")
 
               destination.mkdir(parents=True, exist_ok=True)
               zf.extractall(destination)
+
+          print(f"ZIP validated: {len(files)} files")
+          print("The ZIP contains the permanent Hugo workflow.")
           PY
 
-      - name: Replace repository files and remove the bootstrap files
+      - name: Show incoming files
         shell: bash
-        env:
-          TARGET_REF: ${{ github.ref }}
-          TARGET_BRANCH: ${{ github.ref_name }}
-          GH_REPO: ${{ github.repository }}
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          find "$RUNNER_TEMP/site-payload" -type f \
+            -printf '%P\n' | sort
+
+      - name: Replace repository files
+        shell: bash
         run: |
           set -euo pipefail
 
-          # The archive is already safely extracted outside the checkout.
           git ls-files -z | xargs -0 -r git rm -f --
           git clean -fdx
           cp -a "$RUNNER_TEMP/site-payload/." .
 
           git add -A
+          echo "Staged changes:"
+          git status --short
+
           if git diff --cached --quiet; then
-            echo "The archive already matches the repository."
+            echo "No changes to commit."
+            exit 0
+          fi
+
+      - name: Commit replacement
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if git diff --cached --quiet; then
+            echo "No commit needed."
             exit 0
           fi
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -m "Install site files from ZIP"
-          git push origin "HEAD:${TARGET_REF#refs/heads/}"
 
-          # GITHUB_TOKEN suppresses push-triggered workflows. Dispatch the
-          # permanent Hugo workflow explicitly after installing it.
-          for attempt in {1..6}; do
-            if gh workflow run hugo.yaml --repo "$GH_REPO" --ref "$TARGET_BRANCH"; then
-              exit 0
-            fi
-            sleep 5
-          done
-          echo "Could not start hugo.yaml. Run it manually from the Actions tab."
-          exit 1
+      - name: Push replacement using REPO_TOKEN
+        shell: bash
+        env:
+          TARGET_REF: ${{ github.ref }}
+        run: |
+          set -euo pipefail
+
+          if [[ "$TARGET_REF" != refs/heads/* ]]; then
+            echo "::error::Run this workflow on a branch."
+            exit 1
+          fi
+
+          if [[ "$(git rev-parse HEAD)" == "$(git rev-parse "origin/${TARGET_REF#refs/heads/}")" ]]; then
+            echo "Nothing to push."
+            exit 0
+          fi
+
+          git push origin "HEAD:$TARGET_REF"
+          echo "Replacement pushed successfully."
+          echo "The permanent Hugo workflow should run from this PAT-authenticated push."
