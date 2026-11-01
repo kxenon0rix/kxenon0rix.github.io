@@ -1,0 +1,78 @@
+name: One-time unzip Hugo starter
+
+on:
+  workflow_dispatch:
+    inputs:
+      archive_path:
+        description: ZIP file path in the repository root
+        required: true
+        default: Gilded-Page-Hugo-GitHub-Lazy-Pack.zip
+
+permissions:
+  contents: read
+
+jobs:
+  unpack-and-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          token: ${{ secrets.BOOTSTRAP_TOKEN }}
+          persist-credentials: true
+
+      - name: Unpack site files and commit them
+        env:
+          ARCHIVE_PATH: ${{ inputs.archive_path }}
+        run: |
+          set -Eeuo pipefail
+          if [[ ! "$ARCHIVE_PATH" =~ ^[A-Za-z0-9_.-]+\.zip$ ]]; then
+            echo "archive_path must be a ZIP file in the repository root" >&2
+            exit 1
+          fi
+          [[ -f "$GITHUB_WORKSPACE/$ARCHIVE_PATH" ]] || { echo "ZIP not found: $ARCHIVE_PATH" >&2; exit 1; }
+
+          unpack_dir="$(mktemp -d "$RUNNER_TEMP/hugo-starter.XXXXXX")"
+          trap 'rm -rf -- "$unpack_dir"' EXIT
+          unzip -q "$GITHUB_WORKSPACE/$ARCHIVE_PATH" -d "$unpack_dir"
+          site_root="$(find "$unpack_dir" -type f -path '*/site/hugo.toml' -print -quit | xargs -r dirname)"
+          [[ -n "$site_root" && -f "$site_root/hugo.toml" ]] || { echo "The ZIP does not contain site/hugo.toml" >&2; exit 1; }
+
+          conflicts=()
+          while IFS= read -r -d '' source_file; do
+            relative="${source_file#"$site_root"/}"
+            target="$GITHUB_WORKSPACE/$relative"
+            if [[ -e "$target" && "$relative" != '.gitignore' ]]; then
+              conflicts+=("$relative")
+            fi
+          done < <(find "$site_root" -type f -print0)
+          if ((${#conflicts[@]})); then
+            printf 'Existing files would be overwritten; stopping without copying:\n' >&2
+            printf '  %s\n' "${conflicts[@]}" >&2
+            exit 1
+          fi
+
+          while IFS= read -r -d '' source_file; do
+            relative="${source_file#"$site_root"/}"
+            target="$GITHUB_WORKSPACE/$relative"
+            mkdir -p -- "$(dirname -- "$target")"
+            if [[ "$relative" == '.gitignore' && -f "$target" ]]; then
+              while IFS= read -r line || [[ -n "$line" ]]; do
+                [[ -z "$line" ]] && continue
+                grep -Fqx -- "$line" "$target" || printf '%s\n' "$line" >> "$target"
+              done < "$source_file"
+            else
+              cp -p -- "$source_file" "$target"
+            fi
+          done < <(find "$site_root" -type f -print0)
+
+          rm -- "$GITHUB_WORKSPACE/$ARCHIVE_PATH"
+          git add --all
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+          git config user.name '0xC0000005'
+          git config user.email 'noreply@github.com'
+          git commit -m 'Install 0xC0000005 Hugo blog'
+          git push origin "HEAD:$GITHUB_REF_NAME"
