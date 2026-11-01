@@ -1,0 +1,8 @@
+name = "Gilded Page"
+license = "MIT"
+licenselink = "https://opensource.org/licenses/MIT"
+description = "A responsive Chinese personal blog theme with dark mode, Mermaid, KaTeX, TOC, and copyable code blocks."
+min_version = "0.146.0"
+
+[author]
+  name = "0xC0000005"

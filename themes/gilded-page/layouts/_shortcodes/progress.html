@@ -1,0 +1,1 @@
+{{ $value := .Get "value" | default "50" }}{{ $max := .Get "max" | default "100" }}<div class="demo-progress"><div class="progress"><div class="progress-bar" role="progressbar" style="width:{{ div (mul (int $value) 100) (int $max) }}%" aria-valuenow="{{ $value }}" aria-valuemin="0" aria-valuemax="{{ $max }}"></div></div><span>{{ $value }}%</span></div>

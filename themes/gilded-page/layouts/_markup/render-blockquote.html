@@ -1,0 +1,1 @@
+{{ if eq .Type "alert" }}<blockquote class="markdown-alert markdown-alert-{{ .AlertType }}"><p class="alert-heading">{{ .AlertTitle | default (title .AlertType) }}</p>{{ .Text }}</blockquote>{{ else }}<blockquote>{{ .Text }}</blockquote>{{ end }}

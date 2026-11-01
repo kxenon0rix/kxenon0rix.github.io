@@ -1,0 +1,68 @@
+baseURL = 'https://gilded-page-blog.mintygrass4097.chatgpt.site/'
+locale = 'zh-CN'
+defaultContentLanguage = 'zh-cn'
+title = '0xC0000005 · 错误日志'
+theme = 'gilded-page'
+publishDir = 'dist'
+enableRobotsTXT = true
+summaryLength = 36
+
+[taxonomies]
+  category = 'categories'
+  tag = 'tags'
+
+[outputs]
+  home = ['html']
+  page = ['html']
+  section = ['html']
+  taxonomy = ['html']
+  term = ['html']
+
+[pagination]
+  pagerSize = 6
+  path = 'page'
+
+[permalinks]
+  articles = '/articles/:slug/'
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.extensions]
+      strikethrough = false
+      [markup.goldmark.extensions.extras]
+        [markup.goldmark.extensions.extras.delete]
+          enable = true
+        [markup.goldmark.extensions.extras.insert]
+          enable = true
+        [markup.goldmark.extensions.extras.mark]
+          enable = true
+        [markup.goldmark.extensions.extras.subscript]
+          enable = true
+        [markup.goldmark.extensions.extras.superscript]
+          enable = true
+      [markup.goldmark.extensions.footnote]
+        enable = true
+        backlinkHTML = '↩︎'
+      [markup.goldmark.extensions.passthrough]
+        enable = true
+        [markup.goldmark.extensions.passthrough.delimiters]
+          block = [['$$', '$$'], ['\[', '\]']]
+          inline = [['\(', '\)'], ['$', '$']]
+    [markup.goldmark.parser.attribute]
+      block = true
+      title = true
+    [markup.goldmark.renderer]
+      unsafe = true
+  [markup.highlight]
+    codeFences = true
+    noClasses = false
+    style = 'github'
+    tabWidth = 2
+
+[params]
+  author = '0xC0000005'
+  description = '关于旅行、阅读、食物和日常生活的个人记录。'
+  dateFormat = '2006年1月2日'
+  mermaidVersion = '11'
+  math = true
+  katexVersion = '0.16.11'

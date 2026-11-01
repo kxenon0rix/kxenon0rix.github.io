@@ -1,0 +1,1 @@
+{{ $result := transform.HighlightCodeBlock . }}{{ $language := .Type | default "text" }}<div class="code-block" data-code-language="{{ $language | lower }}"><div class="code-toolbar"><span class="code-language">{{ $language | lower }}</span><button class="code-copy" type="button" aria-label="复制{{ $language }}代码">复制</button></div>{{ $result.Wrapped }}</div>
