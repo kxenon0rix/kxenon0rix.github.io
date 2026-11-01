@@ -21,57 +21,51 @@ jobs:
           token: ${{ secrets.BOOTSTRAP_TOKEN }}
           persist-credentials: true
 
-      - name: Unpack site files and commit them
+      - name: Clear repository and install site from ZIP
         env:
           ARCHIVE_PATH: ${{ inputs.archive_path }}
         run: |
           set -Eeuo pipefail
+
           if [[ ! "$ARCHIVE_PATH" =~ ^[A-Za-z0-9_.-]+\.zip$ ]]; then
             echo "archive_path must be a ZIP file in the repository root" >&2
             exit 1
           fi
-          [[ -f "$GITHUB_WORKSPACE/$ARCHIVE_PATH" ]] || { echo "ZIP not found: $ARCHIVE_PATH" >&2; exit 1; }
+
+          [[ -f "$GITHUB_WORKSPACE/$ARCHIVE_PATH" ]] || {
+            echo "ZIP not found: $ARCHIVE_PATH" >&2
+            exit 1
+          }
 
           unpack_dir="$(mktemp -d "$RUNNER_TEMP/hugo-starter.XXXXXX")"
           trap 'rm -rf -- "$unpack_dir"' EXIT
+
+          # Extract first, so the source archive remains available during cleanup.
           unzip -q "$GITHUB_WORKSPACE/$ARCHIVE_PATH" -d "$unpack_dir"
+
           site_root="$(find "$unpack_dir" -type f -path '*/site/hugo.toml' -print -quit | xargs -r dirname)"
-          [[ -n "$site_root" && -f "$site_root/hugo.toml" ]] || { echo "The ZIP does not contain site/hugo.toml" >&2; exit 1; }
-
-          conflicts=()
-          while IFS= read -r -d '' source_file; do
-            relative="${source_file#"$site_root"/}"
-            target="$GITHUB_WORKSPACE/$relative"
-            if [[ -e "$target" && "$relative" != '.gitignore' ]]; then
-              conflicts+=("$relative")
-            fi
-          done < <(find "$site_root" -type f -print0)
-          if ((${#conflicts[@]})); then
-            printf 'Existing files would be overwritten; stopping without copying:\n' >&2
-            printf '  %s\n' "${conflicts[@]}" >&2
+          [[ -n "$site_root" && -f "$site_root/hugo.toml" ]] || {
+            echo "The ZIP does not contain site/hugo.toml" >&2
             exit 1
-          fi
+          }
 
-          while IFS= read -r -d '' source_file; do
-            relative="${source_file#"$site_root"/}"
-            target="$GITHUB_WORKSPACE/$relative"
-            mkdir -p -- "$(dirname -- "$target")"
-            if [[ "$relative" == '.gitignore' && -f "$target" ]]; then
-              while IFS= read -r line || [[ -n "$line" ]]; do
-                [[ -z "$line" ]] && continue
-                grep -Fqx -- "$line" "$target" || printf '%s\n' "$line" >> "$target"
-              done < "$source_file"
-            else
-              cp -p -- "$source_file" "$target"
-            fi
-          done < <(find "$site_root" -type f -print0)
+          # Remove every repository item except Git metadata and the source ZIP.
+          find "$GITHUB_WORKSPACE" -mindepth 1 -maxdepth 1 \
+            ! -name '.git' \
+            ! -name "$ARCHIVE_PATH" \
+            -exec rm -rf -- {} +
 
+          # Install the new Hugo site at the repository root.
+          cp -a "$site_root/." "$GITHUB_WORKSPACE/"
           rm -- "$GITHUB_WORKSPACE/$ARCHIVE_PATH"
+
           git add --all
+
           if git diff --cached --quiet; then
             echo "No changes to commit."
             exit 0
           fi
+
           git config user.name '0xC0000005'
           git config user.email 'noreply@github.com'
           git commit -m 'Install 0xC0000005 Hugo blog'
