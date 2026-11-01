@@ -253,13 +253,69 @@
 }
 .dark .markdown-body blockquote.markdown-alert-caution .alert-heading { color: #f0a39a; }
 
-/* Keep the article outline in view on desktop without covering the article. */
+
+/* TOC follows only within the article body, starting below its image. */
 @media (min-width: 992px) {
-  .article-wrap > .row { display: block; }
-  .article-wrap > .row > aside { position: fixed; z-index: 25; left: max(16px, calc((100vw - 1140px) / 2)); top: 104px; bottom: 18px; width: 250px; max-width: 250px; padding: 0; }
-  .article-wrap .toc-card { position: absolute; inset: 0; width: 100%; max-height: none; overflow: hidden; padding: 10px 14px; border: 1px solid var(--line); border-left: 3px solid var(--gold); border-radius: 8px; background: color-mix(in srgb, var(--paper) 91%, transparent); box-shadow: 0 10px 32px rgba(20, 28, 22, .12); backdrop-filter: blur(16px); }
-  .article-wrap .article-body { width: calc(100% - 300px); max-width: none; margin-left: 300px; }
+  .article-wrap > .row {
+    display: flex !important;
+    align-items: stretch !important;
+  }
+  .article-wrap > .row > aside {
+    position: static !important;
+    inset: auto !important;
+    width: 25% !important;
+    max-width: 25% !important;
+    margin: 0 !important;
+  }
+  .article-wrap .toc-card {
+    position: sticky !important;
+    top: 104px !important;
+    bottom: auto !important;
+    inset: auto !important;
+    transform: none !important;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    max-height: calc(100vh - 124px);
+    overflow: hidden;
+  }
+  .article-wrap #article-toc {
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+  }
+  .article-wrap .article-body {
+    width: 66.666667% !important;
+    max-width: 66.666667% !important;
+    flex: 0 0 66.666667% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
 }
 @media (max-width: 991.98px) {
-  .article-wrap > .row > aside { position: static; width: 100%; max-width: 100%; }
+  .article-wrap > .row {
+    display: flex !important;
+    align-items: flex-start !important;
+  }
+  .article-wrap > .row > aside {
+    position: static !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  .article-wrap .toc-card {
+    position: relative !important;
+    top: auto !important;
+    max-height: none;
+  }
+  .article-wrap #article-toc {
+    max-height: min(34vh, 270px);
+    overflow-y: auto;
+  }
+  .article-wrap .article-body {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: 0 0 100% !important;
+    margin-left: 0 !important;
+  }
 }
