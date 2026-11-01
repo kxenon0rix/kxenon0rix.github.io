@@ -1,18 +1,18 @@
 ---
 layout: article
 slug: "quiet-house"
-title: "一间安静的房子"
+title: "A Quiet House"
 date: 2025-10-12T09:00:00+08:00
-description: "石灰墙、木头与阳光：一处老屋改造。"
+description: "Limewashed walls, warm wood, and sunlight in a lovingly restored old home."
 categories: [everyday]
 photo: photo-home
 image: https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1600&q=88
 ---
 
-我最近喜欢的一处老屋，没有把旧痕迹全部藏起来。石灰墙有浅浅的起伏，木地板被时间磨得温润，窗边的光从上午一直移到下午。
+I recently visited an old house whose owners had chosen not to hide every trace of its past. The limewashed walls held a gentle texture, the wooden floors had softened with age, and a patch of window light moved slowly from morning into afternoon.
 
-房间里没有太多东西：一张桌子、几把椅子、一盏读书灯。正因为留白足够，日常用品才有了自己的位置。一本读到一半的书、一只陶杯，都是屋子的一部分。
+There was not much in the room: a table, a few chairs, and a reading lamp. With enough space left open, everyday things seemed to find their own place. A half-read book and a ceramic cup belonged as naturally as the furniture.
 
-> 家不必时时提醒我们它有多漂亮。能让人舒展地呼吸，就已经很好。
+> A home does not need to remind us how beautiful it is. It is enough if we can breathe easily there.
 
-我把这次拜访记作一个提醒：少一点装饰，多一点触感；少一点匆忙，多一点时间。回家后，我也把餐桌重新擦了一遍，换上刚摘的枝叶。
+I left with a small reminder: fewer decorations, more texture; less hurry, more time. At home, I wiped down my own table and put a few freshly cut branches in a vase.

@@ -1,9 +1,9 @@
 ---
 layout: article
 slug: "markdown-test"
-title: "Markdown 语法完整测试"
+title: "Complete Markdown Syntax Test"
 date: 2025-08-21T09:00:00+08:00
-description: "从基础 Markdown 到数学公式、Mermaid 图表与 Hugo 组件短代码的完整排版示例。"
+description: "A showcase of Markdown, math, Mermaid diagrams, and Hugo shortcodes."
 categories: [technology]
 photo: photo-book
 image: https://images.unsplash.com/photo-1455390582262-044c623f8e5d?auto=format&fit=crop&w=1600&q=88
@@ -11,104 +11,104 @@ math: true
 mermaid: true
 ---
 
-# 一级标题 H1
-## 二级标题 H2
-### 三级标题 H3
-#### 四级标题 H4
-##### 五级标题 H5
-###### 六级标题 H6
+# Heading level 1
+## Heading level 2
+### Heading level 3
+#### Heading level 4
+##### Heading level 5
+###### Heading level 6
 
 ---
 
-## 1. 文字样式
+## 1. Text formatting
 
-普通文本
+Regular text
 
-**粗体文字**
+**Bold text**
 
-*斜体文字*
+*Italic text*
 
-***粗斜体文字***
+***Bold italic text***
 
-~~删除线~~
+~~Strikethrough~~
 
-<u>下划线</u>
+<u>Underline</u>
 
-==高亮文字==
+==Highlighted text==
 
-`行内代码`
+`Inline code`
 
 H~2~O
 
 X^2^
 
-上标：<sup>2</sup>
+Superscript: <sup>2</sup>
 
-下标：<sub>2</sub>
+Subscript: <sub>2</sub>
 
-快捷键：<kbd>Ctrl</kbd> + <kbd>C</kbd>
-
----
-
-## 2. 引用块
-
-> 普通引用
-
-> 第一层引用
->> 第二层引用
->>> 第三层引用
+Keyboard shortcut: <kbd>Ctrl</kbd> + <kbd>C</kbd>
 
 ---
 
-## 3. 列表
+## 2. Blockquotes
 
-- 无序列表
-- 第二项
-  - 子项目 A
-  - 子项目 B
+> A regular quote
 
-1. 有序列表
-2. 第二步
-3. 第三步
-
-### 任务列表
-
-- [x] 已完成
-- [x] 已检查
-- [ ] 待处理
-- [ ] 待发布
+> First-level quote
+>> Second-level quote
+>>> Third-level quote
 
 ---
 
-## 4. 链接
+## 3. Lists
+
+- Unordered item
+- Second item
+  - Nested item A
+  - Nested item B
+
+1. Ordered item
+2. Step two
+3. Step three
+
+### Task list
+
+- [x] Completed
+- [x] Reviewed
+- [ ] To do
+- [ ] To publish
+
+---
+
+## 4. Links
 
 [OpenAI](https://openai.com)
 
 <https://example.com>
 
-[带标题的链接](https://example.com "提示文字")
+[Link with a title](https://example.com "Link title")
 
 ---
 
-## 5. 图片
+## 5. Images
 
-![图片描述](https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=900&q=80)
+![Landscape photograph](https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=900&q=80)
 
-[![可点击图片](https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=500&q=75)](https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1400&q=90)
+[![Clickable landscape photograph](https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=500&q=75)](https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1400&q=90)
 
 ---
 
-## 6. 表格
+## 6. Tables
 
-| 名称 | 类型 | 状态 |
+| Name | Type | Status |
 |:---|:---:|---:|
-| Markdown | 文档 | ✅ |
-| Mermaid | 图表 | ✅ |
-| MDX | 组件 | 🚀 |
+| Markdown | Document | Ready |
+| Mermaid | Diagram | Ready |
+| Hugo | Site generator | Ready |
 
 ---
 
-## 7. 代码块
+## 7. Code blocks
 
 ```python
 def hello(name):
@@ -142,26 +142,23 @@ console.log(user);
 
 ---
 
-## 8. 数学公式
+## 8. Math
 
-行内公式：
+Inline formula: $E = mc^2$
 
-$E = mc^2$
-
-块级公式：
+Display formula:
 
 $$
 E = mc^2
 $$
 
-积分：
+Integral:
 
 $$
-\int_{-\infty}^{+\infty} e^{-x^2} dx
-= \sqrt{\pi}
+\int_{-\infty}^{+\infty} e^{-x^2} dx = \sqrt{\pi}
 $$
 
-矩阵：
+Matrix:
 
 $$
 A =
@@ -174,173 +171,165 @@ $$
 
 ---
 
-## 9. Mermaid 流程图
+## 9. Mermaid flowchart
 
 ```mermaid
 flowchart TD
-    A[开始] --> B{判断条件}
-    B -->|是| C[执行操作 A]
-    B -->|否| D[执行操作 B]
-    C --> E[结束]
+    A[Start] --> B{Condition}
+    B -->|Yes| C[Run action A]
+    B -->|No| D[Run action B]
+    C --> E[End]
     D --> E
 ```
 
 ---
 
-## 10. Mermaid 时序图
+## 10. Mermaid sequence diagram
 
 ```mermaid
 sequenceDiagram
-    participant U as 用户
-    participant A as 前端
-    participant S as 服务器
-
-    U->>A: 发送请求
-    A->>S: API 调用
-    S-->>A: 返回数据
-    A-->>U: 显示结果
+    participant U as Visitor
+    participant A as Frontend
+    participant S as Server
+    U->>A: Send request
+    A->>S: API call
+    S-->>A: Return data
+    A-->>U: Show result
 ```
 
 ---
 
-## 11. Mermaid 甘特图
+## 11. Mermaid Gantt chart
 
 ```mermaid
 gantt
-    title 项目开发计划
+    title Project plan
     dateFormat YYYY-MM-DD
-
-    section 设计
-    UI设计 :a1, 2026-01-01, 5d
-
-    section 开发
-    前端开发 :a2, after a1, 10d
-    后端开发 :a3, after a1, 12d
-
-    section 测试
-    系统测试 :a4, after a3, 5d
+    section Design
+    Interface design :a1, 2026-01-01, 5d
+    section Development
+    Frontend :a2, after a1, 10d
+    Backend :a3, after a1, 12d
+    section Testing
+    System test :a4, after a3, 5d
 ```
 
 ---
 
-## 12. Mermaid 思维导图
+## 12. Mermaid mind map
 
 ```mermaid
 mindmap
   root((Markdown))
-    基础语法
-      标题
-      列表
-      引用
-    扩展语法
-      表格
-      数学公式
-      图表
-    高级功能
-      MDX
-      交互组件
-      动态内容
+    Core syntax
+      Headings
+      Lists
+      Quotes
+    Extensions
+      Tables
+      Math
+      Diagrams
+    Advanced features
+      Shortcodes
+      Interactive components
+      Dynamic content
 ```
 
 ---
 
-## 13. 提示块（GitHub 风格）
+## 13. GitHub-style callouts
 
 > [!NOTE]
-> 这是普通提示信息。
+> This is a note.
 
 > [!TIP]
-> 这是实用技巧。
+> This is a useful tip.
 
 > [!IMPORTANT]
-> 这是重要内容。
+> This is important.
 
 > [!WARNING]
-> 这是警告信息。
+> This is a warning.
 
 > [!CAUTION]
-> 这是危险操作提醒。
+> Use care when performing this action.
 
 ---
 
-## 14. 折叠面板（HTML 扩展）
+## 14. HTML disclosure
 
 <details>
-<summary>点击展开内容</summary>
+<summary>Click to expand</summary>
 
-这里是隐藏内容。
-
-可以放文字、代码和其他元素。
+This content is hidden until expanded. You can put text, code, and other elements here.
 
 </details>
 
 ---
 
-## 15. 脚注
+## 15. Footnotes
 
-这里是一段带脚注的文字。[^1]
+Here is a sentence with a footnote.[^1]
 
-[^1]: 这是脚注内容。
+[^1]: This is the footnote.
 
 ---
 
-## 16. 定义列表（Pandoc 等扩展）
+## 16. Definition lists
 
 Markdown
-: 一种轻量级标记语言
+: A lightweight markup language.
 
-MDX
-: 允许在 Markdown 中嵌入组件的格式
-
----
-
-## 17. Emoji
-
-😀 😎 🚀 🔥 💡
-
-✅ ❌ ⚠️ 📌 ⭐
-
-📊 📈 📉 💻 🎨
+Hugo shortcodes
+: Reusable components embedded in Markdown content.
 
 ---
 
-## 18. HTML 混合排版
+## 17. Symbols
+
+Arrows: ← ↑ → ↓ · — …
+
+Mathematical symbols: ∑ ∫ √ ∞ ≈ ≠ ≤ ≥
+
+---
+
+## 18. Mixed HTML layout
 
 <div align="center">
 
-### 居中标题
+### Centered heading
 
-这是一段居中文字。
+This paragraph is centered.
 
 </div>
 
-<mark>高亮文字</mark>
+<mark>Highlighted text</mark>
 
-<small>小号文字</small>
+<small>Small text</small>
 
-<del>删除文字</del>
+<del>Deleted text</del>
 
-<ins>插入文字</ins>
-
----
-
-## 19. 目录锚点
-
-[跳转到文字样式](#1-文字样式)
-
-[跳转到代码块](#7-代码块)
+<ins>Inserted text</ins>
 
 ---
 
-## 20. MDX 卡片组件
+## 19. Table of contents anchors
 
-{{< card title="功能卡片" icon="🚀" >}}
-这是卡片的正文内容。
+[Jump to text formatting](#1-text-formatting)
+
+[Jump to code blocks](#7-code-blocks)
+
+---
+
+## 20. Hugo card shortcode
+
+{{< card title="Feature card" icon="→" >}}
+This is the body of the card.
 {{< /card >}}
 
 ---
 
-## 21. MDX 标签页
+## 21. Hugo tabs shortcode
 
 {{< tabs >}}
 {{< tab title="Python" >}}
@@ -357,63 +346,63 @@ console.log("Hello");
 
 ---
 
-## 22. MDX 交互按钮
+## 22. Hugo buttons
 
-{{< button variant="primary" >}}点击按钮{{< /button >}}
+{{< button variant="primary" >}}Primary action{{< /button >}}
 
-{{< button variant="secondary" >}}次要按钮{{< /button >}}
+{{< button variant="secondary" >}}Secondary action{{< /button >}}
 
 ---
 
-## 23. MDX 进度条
+## 23. Hugo progress bar
 
 {{< progress value="75" max="100" >}}
 
 ---
 
-## 24. MDX 徽章
+## 24. Hugo badges
 
-{{< badge color="green" >}}成功{{< /badge >}}
+{{< badge color="green" >}}Success{{< /badge >}}
 
-{{< badge color="yellow" >}}处理中{{< /badge >}}
+{{< badge color="yellow" >}}In progress{{< /badge >}}
 
-{{< badge color="red" >}}失败{{< /badge >}}
-
----
-
-## 25. MDX 警告框
-
-{{< alert type="success" >}}操作成功！{{< /alert >}}
-
-{{< alert type="warning" >}}请检查输入内容。{{< /alert >}}
-
-{{< alert type="error" >}}发生错误。{{< /alert >}}
+{{< badge color="red" >}}Failed{{< /badge >}}
 
 ---
 
-## 26. MDX 网格布局
+## 25. Hugo alerts
+
+{{< alert type="success" >}}The operation succeeded.{{< /alert >}}
+
+{{< alert type="warning" >}}Please check the input.{{< /alert >}}
+
+{{< alert type="error" >}}An error occurred.{{< /alert >}}
+
+---
+
+## 26. Hugo grid
 
 {{< grid columns="3" >}}
-{{< card title="卡片 A" >}}内容 A{{< /card >}}
-{{< card title="卡片 B" >}}内容 B{{< /card >}}
-{{< card title="卡片 C" >}}内容 C{{< /card >}}
+{{< card title="Card A" >}}Content A{{< /card >}}
+{{< card title="Card B" >}}Content B{{< /card >}}
+{{< card title="Card C" >}}Content C{{< /card >}}
 {{< /grid >}}
 
 ---
 
-## 27. MDX 图表组件
+## 27. Chart shortcode
 
 {{< bar-chart >}}
 
 ---
 
-## 28. MDX 交互表单
+## 28. Interactive form shortcode
 
 {{< demo-form >}}
 
 ---
 
-## 29. 分割线
+## 29. Horizontal rules
 
 ---
 
@@ -423,42 +412,42 @@ ___
 
 ---
 
-## 30. 综合展示
+## 30. Combined example
 
-# 🚀 现代 Markdown 展示
+# A modern Markdown showcase
 
 > [!IMPORTANT]
-> 这是一个综合示例。
+> This combines several features in one example.
 
-### 功能进度
+### Feature checklist
 
-- [x] 基础排版
-- [x] 代码高亮
-- [x] 数学公式
-- [x] 图表支持
-- [ ] 动态交互
+- [x] Basic formatting
+- [x] Syntax highlighting
+- [x] Mathematical formulas
+- [x] Diagrams
+- [ ] Interactive content
 
-### 数据统计
+### Sample metrics
 
-| 指标 | 数值 | 趋势 |
+| Metric | Value | Trend |
 |---|---:|---|
-| 用户量 | 12,500 | 📈 |
-| 访问量 | 88,000 | 📈 |
-| 错误率 | 0.2% | 📉 |
+| Readers | 12,500 | Rising |
+| Visits | 88,000 | Rising |
+| Error rate | 0.2% | Falling |
 
-### 流程
+### Flow
 
 ```mermaid
 flowchart LR
-    A[Markdown] --> B[解析]
-    B --> C[渲染]
-    C --> D[富文本界面]
+    A[Markdown] --> B[Parse]
+    B --> C[Render]
+    C --> D[Readable page]
 ```
 
-### 数学表达
+### Formula
 
 $$
 f(x)=\frac{1}{1+e^{-x}}
 $$
 
-**完成！**
+**Done!**

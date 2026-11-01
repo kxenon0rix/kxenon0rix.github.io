@@ -1,5 +1,5 @@
 ---
 layout: categories
-title: "文章分类"
-description: "按主题慢慢逛逛。"
+title: "Categories"
+description: "Browse the journal by topic."
 ---

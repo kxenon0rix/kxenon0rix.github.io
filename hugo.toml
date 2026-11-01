@@ -1,7 +1,7 @@
-baseURL = 'https://gilded-page-blog.mintygrass4097.chatgpt.site/'
-locale = 'zh-CN'
-defaultContentLanguage = 'zh-cn'
-title = '0xC0000005 · 错误日志'
+baseURL = 'https://kxenon0rix.github.io/'
+locale = 'en-US'
+defaultContentLanguage = 'en-us'
+title = '0xC0000005 · Personal Journal'
 theme = 'gilded-page'
 publishDir = 'dist'
 enableRobotsTXT = true
@@ -61,8 +61,9 @@ summaryLength = 36
 
 [params]
   author = '0xC0000005'
-  description = '关于旅行、阅读、食物和日常生活的个人记录。'
-  dateFormat = '2006年1月2日'
+  slogan = 'Beyond the obvious.'
+  description = 'A journal of errors, ideas, travel, books, and everyday life.'
+  dateFormat = 'January 2, 2006'
   mermaidVersion = '11'
   math = true
   katexVersion = '0.16.11'

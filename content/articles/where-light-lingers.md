@@ -1,33 +1,33 @@
 ---
 layout: article
 slug: "where-light-lingers"
-title: "光停留的地方"
+title: "Where the Light Lingers"
 date: 2025-10-21T09:00:00+08:00
-description: "托斯卡纳的几日闲游，练习少做一点，多留心一点。"
+description: "A few quiet days in Tuscany, practicing doing less and noticing more."
 categories: [travel]
 photo: photo-olive
 image: https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1600&q=88
 ---
 
-清晨的光落在山坡上时，整座农庄还没有醒来。我端着咖啡走到门廊，听见远处有人开门、鸡鸣，还有树叶被风轻轻翻动的声音。
+When the morning light reached the hillside, the farmhouse was still asleep. I carried my coffee onto the porch and heard a door opening in the distance, a rooster calling, and leaves turning softly in the breeze.
 
-这趟旅行没有安排太多事情。我们沿着土路散步，在村里的小店买面包和桃子，午后躲进厚墙房间里休息。慢下来以后，才发现一天可以有这么多细小的层次。
+We did not plan much for this trip. We walked along country roads, bought bread and peaches at a village shop, and rested in a cool, thick-walled room in the afternoon. Once we slowed down, the day revealed all its small layers.
 
-> 有些地方不需要被看完，只需要在里面待一会儿。
+> Some places do not need to be seen in full. It is enough to spend a little time in them.
 
-傍晚，我们坐在石墙边看天色变柔。桌上是番茄、橄榄油和刚切开的面包，谁也没有急着拿起手机。后来想起那几天，最清晰的不是某个景点，而是光停留在桌布上的那几分钟。
+At dusk, we sat beside a stone wall and watched the colors soften. There were tomatoes, olive oil, and freshly sliced bread on the table; no one was in a hurry to reach for a phone. When I think back, the clearest memory is not a landmark but a few minutes of light resting on the tablecloth.
 
-| 时刻 | 记下的事 | 心情 |
+| Moment | What I remember | Feeling |
 |:---|:---|:---:|
-| 清晨 | 门廊上的第一杯咖啡 | 安静 |
-| 午后 | 村口买来的桃子 | 慢下来 |
-| 黄昏 | 石墙边的长桌晚餐 | 满足 |
+| Morning | The first coffee on the porch | Quiet |
+| Afternoon | Peaches from the village shop | Unhurried |
+| Dusk | A long dinner table by the stone wall | Content |
 
 <details>
-<summary>这趟旅行带回来的小清单</summary>
+<summary>A few things I brought home</summary>
 
-- 一小瓶当地橄榄油
-- 在旧书店买的明信片
-- 不把每一天都排满的勇气
+- A small bottle of local olive oil
+- A postcard from an old bookshop
+- The courage not to fill every day with plans
 
 </details>

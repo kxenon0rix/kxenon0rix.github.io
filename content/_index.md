@@ -1,4 +1,4 @@
 ---
-title: "0xC0000005 · 个人博客"
-description: "关于旅行、阅读、食物和日常生活的个人记录。"
+title: "0xC0000005 · Personal Blog"
+description: "Notes on travel, reading, food, and everyday life."
 ---

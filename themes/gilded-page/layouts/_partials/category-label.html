@@ -1,1 +1,1 @@
-{{ $labels := dict "travel" "旅行" "everyday" "日常" "reading" "阅读" "technology" "技术" }}{{ index $labels (lower (printf "%v" .)) | default . }}
+{{ $labels := dict "travel" "Travel" "everyday" "Everyday" "reading" "Reading" "technology" "Technology" }}{{ index $labels (lower (printf "%v" .)) | default . }}

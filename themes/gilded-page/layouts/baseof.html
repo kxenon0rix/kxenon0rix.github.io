@@ -6,8 +6,8 @@
     {{ partial "header.html" . }}
     <main class="page-content">{{ block "main" . }}{{ end }}</main>
     {{ partial "footer.html" . }}
-    <div class="toast-container position-fixed bottom-0 end-0 p-3"><div id="siteToast" class="toast"><div class="toast-body" id="toastMessage">已收藏</div></div></div>
-    <button id="backTop" class="back-top" aria-label="回到顶部">↑</button>
+    <div class="toast-container position-fixed bottom-0 end-0 p-3"><div id="siteToast" class="toast"><div class="toast-body" id="toastMessage">Saved</div></div></div>
+    <button id="backTop" class="back-top" aria-label="Back to top">↑</button>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     {{ if or .Params.mermaid .Params.math }}<script src="https://cdn.jsdelivr.net/npm/mermaid@{{ site.Params.mermaidVersion }}/dist/mermaid.min.js"></script>{{ end }}

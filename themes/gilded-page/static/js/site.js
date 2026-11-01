@@ -15,13 +15,13 @@
     if (!code) return;
     try {
       await navigator.clipboard.writeText(code.textContent);
-      button.textContent = '已复制';
-      toast('代码已复制到剪贴板');
+      button.textContent = 'Copied';
+      toast('Code copied to clipboard');
     } catch (_) {
-      button.textContent = '复制失败';
-      toast('无法访问剪贴板，请手动选择代码');
+      button.textContent = 'Copy failed';
+      toast('Clipboard unavailable. Select and copy the code manually.');
     }
-    window.setTimeout(() => { button.textContent = '复制'; }, 1600);
+    window.setTimeout(() => { button.textContent = 'Copy'; }, 1600);
   });
   const setTheme = (dark) => {
     body.classList.toggle('dark', dark);
@@ -35,13 +35,13 @@
     event.preventDefault(); body.classList.add('page-turning'); setTimeout(() => { location.href = link.href; }, 220);
   }));
   document.getElementById('shareBtn')?.addEventListener('click', async () => {
-    try { await navigator.clipboard.writeText(location.href); toast('文章链接已复制'); }
-    catch (_) { toast('可以复制浏览器地址分享这篇文章'); }
+    try { await navigator.clipboard.writeText(location.href); toast('Post link copied'); }
+    catch (_) { toast('Copy the page URL to share this post.'); }
   });
   document.querySelectorAll('.save-btn, #bookmarkBtn').forEach((button) => button.addEventListener('click', (event) => {
     event.preventDefault(); button.classList.toggle('saved');
     if (button.matches('#bookmarkBtn')) button.textContent = button.classList.contains('saved') ? '♥︎' : '♡︎';
-    toast(button.classList.contains('saved') ? '已加入收藏' : '已取消收藏');
+    toast(button.classList.contains('saved') ? 'Saved to bookmarks' : 'Removed from bookmarks');
   }));
   const updateProgress = () => {
     const top = window.scrollY, max = document.documentElement.scrollHeight - window.innerHeight;
@@ -56,7 +56,7 @@
     const panes = [...tabs.querySelectorAll('.hugo-tab')]; if (!panes.length) return;
     const nav = document.createElement('div'); nav.className = 'demo-tab-nav';
     panes.forEach((pane, index) => {
-      const button = document.createElement('button'); button.type = 'button'; button.textContent = pane.dataset.tabTitle || `选项 ${index + 1}`;
+      const button = document.createElement('button'); button.type = 'button'; button.textContent = pane.dataset.tabTitle || `Tab ${index + 1}`;
       button.classList.toggle('active', index === 0); pane.classList.add('demo-tab-pane'); pane.classList.toggle('active', index === 0);
       button.addEventListener('click', () => { nav.querySelectorAll('button').forEach((b) => b.classList.remove('active')); panes.forEach((p) => p.classList.remove('active')); button.classList.add('active'); pane.classList.add('active'); }); nav.append(button);
     });

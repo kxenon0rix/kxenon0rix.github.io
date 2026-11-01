@@ -1,11 +1,11 @@
 ---
 layout: about
-title: "关于 0xC0000005"
-description: "这里记录错误、想法、阅读与日常生活。"
+title: "About 0xC0000005"
+description: "A journal of errors, ideas, books, and everyday life."
 ---
 
-你好，我是 **0xC0000005**。这个名字来自一个常见的访问违例错误代码。
+Hello, I am **0xC0000005**. The name comes from a familiar access violation error code.
 
-这里记录技术折腾、旅行见闻、读书片段和日常生活。偶尔遇到错误，也把排查和修复的过程写下来。
+This is where I write about things I am learning, places I visit, books I read, and small details from daily life. When something breaks, I sometimes write down how I found the cause and fixed it.
 
-> 我思故我在。
+> I think, therefore I am.
